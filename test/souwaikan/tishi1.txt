@@ -1,0 +1,115 @@
+# Edge浏览器插件开发说明
+
+## 1. 文件结构
+- manifest.json：插件配置文件
+- popup.html：插件弹出界面
+- popup.js：主要功能代码
+
+## 2. manifest.json 配置
+```json
+{
+  "manifest_version": 3,
+  "name": "Souwaikan Search",
+  "version": "1.0",
+  "description": "Search with custom Google search engine and archive.today",
+  "permissions": [
+    "clipboardRead",  // 读取剪贴板权限
+    "activeTab",      // 操作当前标签页
+    "scripting",      // 执行脚本
+    "tabs"           // 标签页操作
+  ],
+  "host_permissions": [
+    "https://*.google.com/*",    // 访问Google搜索
+    "https://archive.today/*"    // 访问archive.today
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
+```
+
+## 3. popup.html 说明
+- 简洁的用户界面设计
+- 包含搜索输入框、获取剪贴板按钮和搜索按钮
+- 结果显示区域
+- 移除了自定义搜索引擎相关代码，改用普通Google搜索
+
+## 4. popup.js 功能说明
+
+### 主要功能模块：
+
+1. 搜索URL构建
+```javascript
+// 构建Google搜索URL，限制在指定网站内搜索
+function buildGoogleSearchUrl(keyword) {
+    const searchQuery = encodeURIComponent(`${keyword} (site:nytimes.com OR site:wsj.com OR site:economist.com)`);
+    return `https://www.google.com/search?q=${searchQuery}`;
+}
+
+// 构建archive.today搜索URL
+function buildArchiveSearchUrl(url) {
+    return `https://archive.today/search/?q=${encodeURIComponent(url)}`;
+}
+```
+
+2. 剪贴板处理
+- 实现剪贴板内容读取
+- 错误处理和用户反馈
+
+3. 搜索结果提取
+- 使用chrome.scripting.executeScript在搜索结果页面执行
+- 提取相关链接、标题和摘要
+- 实现了更强大的错误处理
+- 支持提取前15条搜索结果
+
+4. 相关性评分系统
+- 考虑标题和摘要的完整匹配
+- 支持多关键词匹配
+- 完整短语匹配得分更高
+- 添加了输入验证和空值处理
+
+### 工作流程：
+1. 用户输入或粘贴搜索内容
+2. 点击搜索后：
+   - 构建Google搜索URL
+   - 在后台打开搜索页面
+   - 等待页面加载（3秒）
+   - 提取相关链接
+   - 分析相关性
+   - 选择最相关的文章
+   - 使用archive.today搜索
+   - 显示结果
+
+### 错误处理改进：
+1. 搜索结果验证
+   - 检查返回结果是否有效
+   - 验证链接和标题的存在
+   - 处理空值和异常情况
+
+2. DOM操作优化
+   - 更精确的选择器
+   - 更好的层级遍历
+   - 防止空引用错误
+
+3. 用户反馈
+   - 清晰的错误信息
+   - 搜索状态提示
+   - 结果展示优化
+
+## 5. 注意事项
+1. 确保有必要的权限配置
+2. 网络请求可能需要等待时间
+3. Google搜索结果页面结构可能变化，需要适时更新选择器
+4. archive.today的访问可能需要代理
+
+## 6. 可能的改进方向
+1. 添加更多外刊网站
+2. 优化相关性算法
+3. 添加搜索历史功能
+4. 支持自定义搜索范围
+5. 添加结果缓存机制
+6. 添加多线程处理
