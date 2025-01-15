@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Roowaikan Search",
+  "version": "1.0",
+  "description": "Search with Google search engine and archive.today",
+  "permissions": [
+    "clipboardRead",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.google.com/*",
+    "https://archive.today/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

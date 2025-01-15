@@ -11,7 +11,7 @@
   "manifest_version": 3,
   "name": "Souwaikan Search",
   "version": "1.0",
-  "description": "Search with custom Google search engine and archive.today",
+  "description": "Search with Google search engine and archive.today",
   "permissions": [
     "clipboardRead",  // 读取剪贴板权限
     "activeTab",      // 操作当前标签页
@@ -36,7 +36,6 @@
 - 简洁的用户界面设计
 - 包含搜索输入框、获取剪贴板按钮和搜索按钮
 - 结果显示区域
-- 移除了自定义搜索引擎相关代码，改用普通Google搜索
 
 ## 4. popup.js 功能说明
 
@@ -46,7 +45,7 @@
 ```javascript
 // 构建Google搜索URL，不限制在指定网站内搜索
 function buildGoogleSearchUrl(keyword) {
-    const searchQuery = encodeURIComponent(`${keyword} (site:nytimes.com OR site:wsj.com OR site:economist.com)`);
+    const searchQuery = encodeURIComponent(keyword);
     return `https://www.google.com/search?q=${searchQuery}`;
 }
 
@@ -100,17 +99,47 @@ function buildArchiveSearchUrl(url) {
    - 搜索状态提示
    - 结果展示优化
 
-## 5. 注意事项
+## 5. 提示词设计
+
+### 提示词结构
+1. **基本结构:**
+   搜索关键词 [时间范围] [语言] [文件类型]
+
+2. **时间范围:** 可选，格式为 `past X years` 或 `past X months`。
+
+3. **语言:** 可选，默认为英文。
+
+4. **文件类型:** 可选，例如 `PDF`, `DOC`, `HTML`。
+
+### 示例提示词
+1. **简单搜索:**
+   AI in healthcare
+
+2. **带时间范围:**
+   Quantum computing breakthroughs past 1 year
+
+3. **带语言限定:**
+   Climate change policies past 2 years English
+
+4. **带文件类型限定:**
+   "machine learning" AND "natural language processing" past 6 months PDF
+
+### 使用说明
+1. **基本用法:** 输入搜索关键词，插件将进行全局搜索。
+2. **时间范围:** 如果需要限定时间范围，可以在关键词后添加 `past X years` 或 `past X months`。
+3. **语言限定:** 如果需要限定语言，可以在最后添加语言名称，例如 `English`。
+4. **文件类型限定:** 如果需要限定文件类型，可以在最后添加文件类型，例如 `PDF`。
+5. **多关键词:** 使用引号和逻辑运算符（如 `AND`, `OR`）来组合多个关键词。
+
+## 6. 注意事项
 1. 确保有必要的权限配置
 2. 网络请求可能需要等待时间
 3. Google搜索结果页面结构可能变化，需要适时更新选择器
 4. archive.today的访问可能需要代理
 
-## 6. 可能的改进方向
-1. 添加更多外刊网站
-2. 优化相关性算法
-3. 添加搜索历史功能
-4. 支持自定义搜索范围
-5. 添加结果缓存机制
-6. 添加多线程处理
-
+## 7. 可能的改进方向
+1. 优化相关性算法
+2. 添加搜索历史功能
+3. 支持自定义搜索范围
+4. 添加结果缓存机制
+5. 添加多线程处理

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Souwaikan Search</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    .search-container {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    #search-input {
+      flex: 1;
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #results {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="输入搜索内容">
+    <button id="paste-btn">粘贴</button>
+    <button id="search-btn">搜索</button>
+  </div>
+  <div id="results"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

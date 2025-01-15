@@ -46,7 +46,7 @@
 ```javascript
 // 构建Google搜索URL，不限制在指定网站内搜索
 function buildGoogleSearchUrl(keyword) {
-    const searchQuery = encodeURIComponent(`${keyword} (site:nytimes.com OR site:wsj.com OR site:economist.com)`);
+    const searchQuery = encodeURIComponent(`${keyword} ;
     return `https://www.google.com/search?q=${searchQuery}`;
 }
 
@@ -64,7 +64,15 @@ function buildArchiveSearchUrl(url) {
 - 使用chrome.scripting.executeScript在搜索结果页面执行
 - 提取相关链接、标题和摘要
 - 实现了更强大的错误处理
-- 支持提取前5条搜索结果
+- 支持提取并显示前5条搜索结果
+-请根据以下示例的提示优化你的谷歌结果提取算法：
+搜索关键词是“California’s Wildfire Insurance Catastrophe ” 
+这是谷歌搜索的结果链接：https://www.google.com/search?q=California’s%20Wildfire%20Insurance%20Catastrophe，
+这是从谷歌搜索结果中提取的代码：
+<a jsname="UWckNb" href="https://www.wsj.com/opinion/california-fires-los-angeles-insurance-regulation-premiums-risk-fair-victoria-roach-gavin-newsom-1306d0a1" data-ved="2ahUKEwjb-rvKmvaKAxWrGjQIHbeSObkQFnoECBoQAQ" ping="/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://www.wsj.com/opinion/california-fires-los-angeles-insurance-regulation-premiums-risk-fair-victoria-roach-gavin-newsom-1306d0a1&amp;ved=2ahUKEwjb-rvKmvaKAxWrGjQIHbeSObkQFnoECBoQAQ" target="_blank" rel="noopener"><br><h3 class="LC20lb MBeuO DKV0Md">California's Wildfire Insurance Catastrophe</h3><div class="notranslate HGLrXd NJjxre iUh30 ojE3Fb"><div class="q0vns"><span class="DDKf1c"><div class="eqA2re UnOTSe Vwoesf" aria-hidden="true"><img class="XNo5Ab" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA5klEQVR4AdTKIWzEMAyFYXM6OlSOBscPlavo6LGysnJaXi4dKyoJKgk5LkU6GhAWEGZbsvSmnLR2HRif9QNbn4n/mH+IoloTFdZ6q+qOklN6FYsFY+GYouxYqLPPhnNrXehX04U2+0bGeMPcwO5+wHMxfVLSHW0leOK8uTeoqxgP1EhloeBToRFZzihGD/e+LGYrTeAzMi6zG4bVBDN5+43Txd8bZ1nRt8AZbaMUKGBVjeS7eEJNZExqq0dqx2ukIgcyPoArzN18Hx7bNIJ/oGSR+o1YzHKqdiDLK2ati3xtiKYhPAAAEwW+v3NuOwYAAAAASUVORK5CYII=" style="height:26px;width:26px" alt="" data-csiid="Bd6GZ5vkPKu10PEPt6XmyQs_5" data-atf="1"></div></span><div class="CA5RN"><div><span class="VuuXrf">WSJ</span></div><div class="byrV5b"><cite class="qLRx3b tjvcx GvPZzd dTxz9 cHaqb" role="text">https://www.wsj.com<span class="ylgVCe ob9lvb" role="text"> › opinion › california...</span></cite></div></div></div></div><span jscontroller="IX53Tb" jsaction="rcuQ6b:npT2md" style="display:none"></span></a>
+
+需要提取搜索结果中的代码中的这个地址：“https://www.wsj.com/opinion/california-fires-los-angeles-insurance-regulation-premiums-risk-fair-victoria-roach-gavin-newsom-1306d0a1”需要传递给archive.today 进行下一步搜索。
+请根据以上信息，优化你的谷歌结果提取算法。
 
 4. 相关性评分系统
 - 考虑标题和摘要的完整匹配
